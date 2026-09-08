@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.env
+.venv/
+venv/
+.DS_Store
+
+# Түпнұсқа (өңделмеген) фото — сайтта assets/ ішіндегі кіші нұсқалар қолданылады
+WhatsApp Image*.jpeg
+Контейнеравоз.jpe

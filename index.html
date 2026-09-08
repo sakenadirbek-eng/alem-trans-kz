@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Alem Trans.KZ</title>
+<meta id="metaDescription" name="description" content="ЖК Alem Trans.KZ — 20 және 40 фут контейнер тасымалы, жартылай тіркеме қызметі. Қазақстан бойынша қалаішілік және қалааралық рейстер. Телефон: +7 701 544 8182.">
+<meta name="keywords" content="контейнеровоз, контейнер тасымалы, Қазақстан грузоперевозки, жартылай тіркеме, 20 фут контейнер, 40 фут контейнер, Alem Trans">
+<link rel="canonical" href="https://alemtrans.kz/">
+
+<meta property="og:type" content="business.business">
+<meta id="ogTitle" property="og:title" content="Alem Trans.KZ — Қазақстан бойынша контейнеровоз">
+<meta id="ogDesc" property="og:description" content="20/40 фут контейнер тасымалы және жартылай тіркеме қызметі. Қазақстан бойынша қалаішілік және қалааралық рейстер.">
+<meta property="og:image" content="assets/truck-terminal.jpg">
+<meta property="og:locale" content="kk_KZ">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MovingCompany",
+  "name": "ИП Alem Trans.KZ",
+  "image": "https://alemtrans.kz/assets/truck-terminal.jpg",
+  "telephone": "+77015448182",
+  "email": "erbol.kts@mail.ru",
+  "areaServed": { "@type": "Country", "name": "Kazakhstan" },
+  "priceRange": "По запросу",
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Перевозка контейнера 20 футов" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Перевозка контейнера 40 футов" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Услуги полуприцепа" } }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap">
+
+<style>
+  :root{
+    --navy:#0b2545;
+    --navy-light:#12335c;
+    --accent:#f0a020;
+    --accent-dark:#b97511;
+    --ink:#152238;
+    --muted:#5c6b80;
+    --bg:#f4f7fb;
+    --card:#ffffff;
+    --line:#dde4ee;
+    --ok:#1f8a4c;
+    --font-display:'Oswald','Arial Narrow',sans-serif;
+    --font-body:'Manrope','Segoe UI',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.6;
+  }
+  h1,h2,h3,.logo,.nav-links a,.badge,.btn,.eyebrow,.big,.demo-flag,.lang-switch button{
+    font-family:var(--font-display);
+  }
+  h1,h2,h3{text-wrap:balance;letter-spacing:.2px;}
+  .hazard-stripe{
+    height:6px;
+    background:repeating-linear-gradient(135deg,var(--accent) 0 14px,var(--navy) 14px 28px);
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  .container{max-width:1120px;margin:0 auto;padding:0 20px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:14px 26px;border-radius:6px;font-weight:600;font-size:14.5px;
+    text-transform:uppercase;letter-spacing:.5px;
+    text-decoration:none;border:none;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-accent{background:var(--accent);color:#1c1200;}
+  .btn-accent:hover{background:var(--accent-dark);transform:translateY(-1px);}
+  .btn-outline{background:transparent;border:2px solid #fff;color:#fff;}
+  .btn-outline:hover{background:rgba(255,255,255,.12);}
+  .btn-block{width:100%;}
+
+  header.site-header{
+    position:sticky;top:0;z-index:50;
+    background:var(--navy);
+    color:#fff;
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:16px;}
+  .logo{font-size:21px;font-weight:600;letter-spacing:.5px;white-space:nowrap;text-transform:uppercase;}
+  .logo span{color:var(--accent);}
+  .nav-links{display:flex;gap:22px;list-style:none;font-size:13px;flex:1;justify-content:center;}
+  .nav-links a{text-decoration:none;opacity:.9;text-transform:uppercase;letter-spacing:.6px;font-weight:500;}
+  .nav-links a:hover{opacity:1;color:var(--accent);}
+  .nav-right{display:flex;align-items:center;gap:16px;}
+  .nav-phone{font-weight:700;color:var(--accent);text-decoration:none;white-space:nowrap;}
+  .lang-switch{display:flex;border:1px solid rgba(255,255,255,.3);border-radius:20px;overflow:hidden;font-size:12.5px;font-weight:700;}
+  .lang-switch button{
+    background:transparent;border:none;color:#cddbeb;padding:6px 12px;cursor:pointer;
+  }
+  .lang-switch button.active{background:var(--accent);color:#1c1200;}
+  .nav-toggle{display:none;background:none;border:none;color:#fff;font-size:26px;cursor:pointer;}
+
+  .hero{
+    position:relative;
+    background:linear-gradient(180deg, rgba(11,37,69,.88), rgba(11,37,69,.94)), url('assets/truck-terminal.jpg') center/cover no-repeat;
+    color:#fff;
+    padding:70px 0 90px;
+  }
+  .hero-inner{max-width:680px;}
+  .hero h1{font-size:42px;font-weight:600;line-height:1.15;margin-bottom:16px;}
+  .hero p.lead{font-size:17px;color:#dbe4f0;margin-bottom:28px;}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;}
+  .hero-badges{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;}
+  .badge{
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
+    padding:8px 14px;border-radius:30px;font-size:13px;color:#eaf0f8;
+  }
+
+  section{padding:64px 0;}
+  .section-head{max-width:640px;margin:0 auto 40px;text-align:center;}
+  .section-head .eyebrow{color:var(--accent-dark);font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;}
+  .section-head h2{font-size:30px;font-weight:600;margin-top:8px;color:var(--navy);}
+  .section-head p{color:var(--muted);margin-top:10px;}
+
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;}
+  .service-card{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:28px 24px;box-shadow:0 2px 10px rgba(11,37,69,.04);
+  }
+  .service-card .icon{
+    width:52px;height:52px;border-radius:12px;background:#eef4ff;
+    display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;
+  }
+  .service-card h3{font-size:18px;font-weight:600;color:var(--navy);margin-bottom:8px;}
+  .service-card p{color:var(--muted);font-size:14.5px;}
+
+  .geo{
+    background:var(--navy);color:#fff;border-radius:16px;
+    padding:44px 34px;display:grid;grid-template-columns:1.1fr 1fr;gap:36px;align-items:center;
+  }
+  .geo h2{font-size:26px;margin-bottom:14px;}
+  .geo p{color:#cddbeb;margin-bottom:18px;}
+  .geo-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;}
+  .geo-list li{font-size:14.5px;color:#eaf0f8;padding-left:22px;position:relative;}
+  .geo-list li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:800;}
+  .geo-map-note{
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+    border-radius:12px;padding:20px;font-size:14px;color:#dbe4f0;
+  }
+
+  .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .gallery-grid figure{
+    margin:0;border-radius:12px;overflow:hidden;border:1px solid var(--line);
+    background:#000;position:relative;aspect-ratio:4/3;
+  }
+  .gallery-grid img{width:100%;height:100%;object-fit:cover;transition:transform .3s ease;}
+  .gallery-grid figure:hover img{transform:scale(1.05);}
+  .gallery-grid figcaption{
+    position:absolute;left:0;right:0;bottom:0;padding:10px 14px;font-size:13px;color:#fff;
+    background:linear-gradient(0deg, rgba(0,0,0,.65), transparent);
+  }
+
+  .tariff-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px;}
+  .tariff-card{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:26px 22px;text-align:center;
+  }
+  .tariff-card .big{font-size:16px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;color:var(--navy);margin-bottom:6px;}
+  .tariff-card .price{font-size:20px;font-weight:800;color:var(--accent-dark);margin:10px 0 14px;}
+  .tariff-card p{color:var(--muted);font-size:13.5px;margin-bottom:16px;}
+  .tariff-note{
+    margin-top:28px;text-align:center;color:var(--muted);font-size:14px;
+  }
+  .tariff-note a{color:var(--accent-dark);font-weight:700;}
+
+  .gps-wrap{
+    display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch;
+  }
+  .gps-text .demo-flag{
+    display:inline-block;background:#fff3d6;color:#8a5a00;font-weight:700;font-size:12.5px;
+    padding:6px 12px;border-radius:20px;margin-bottom:14px;
+  }
+  .gps-text h2{color:var(--navy);font-size:26px;margin-bottom:12px;}
+  .gps-text p{color:var(--muted);margin-bottom:14px;}
+  #gpsMap{
+    width:100%;height:340px;border-radius:12px;border:1px solid var(--line);
+  }
+
+  .order-section{background:var(--navy);color:#fff;}
+  .order-wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:start;}
+  .order-info h2{font-size:27px;margin-bottom:14px;}
+  .order-info p{color:#cddbeb;margin-bottom:22px;}
+  .contact-line{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:15px;}
+  .contact-line a{text-decoration:none;font-weight:700;color:#fff;}
+
+  form.order-form{
+    background:#fff;color:var(--ink);border-radius:14px;padding:30px;
+  }
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+  .field input, .field select, .field textarea{
+    width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:8px;
+    font-size:14.5px;font-family:inherit;background:#f9fafc;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:none;border-color:var(--accent);background:#fff;
+  }
+  .field textarea{resize:vertical;min-height:80px;}
+  .field.error input, .field.error select, .field.error textarea{border-color:#d64545;background:#fff5f5;}
+  .field .err-msg{display:none;color:#d64545;font-size:12.5px;margin-top:5px;}
+  .field.error .err-msg{display:block;}
+  .form-status{
+    margin-top:14px;padding:12px 14px;border-radius:8px;font-size:14px;display:none;
+  }
+  .form-status.show{display:block;}
+  .form-status.ok{background:#e7f7ee;color:var(--ok);}
+  .form-status.fail{background:#fdeaea;color:#b03030;}
+  .form-status a{color:#b03030;font-weight:700;}
+
+  footer{background:#081b32;color:#c6d3e2;padding:40px 0 26px;font-size:14px;}
+  .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:24px;}
+  .footer-grid h4{color:#fff;margin-bottom:10px;font-size:15px;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:18px;font-size:12.5px;color:#7f93aa;text-align:center;}
+
+  .float-wa{
+    position:fixed;right:20px;bottom:20px;z-index:60;
+    background:#25D366;width:58px;height:58px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;
+    text-decoration:none;box-shadow:0 6px 16px rgba(0,0,0,.25);
+  }
+
+  @media (max-width:860px){
+    .geo{grid-template-columns:1fr;}
+    .gps-wrap{grid-template-columns:1fr;}
+    .order-wrap{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:640px){
+    .nav-links{display:none;}
+    .nav-toggle{display:block;}
+    .hero h1{font-size:28px;}
+    .form-row{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:1fr;}
+    .geo-list{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <div class="logo">Alem Trans<span>.KZ</span></div>
+    <ul class="nav-links">
+      <li><a href="#services" data-i18n="nav.services">Қызметтер</a></li>
+      <li><a href="#geo" data-i18n="nav.geo">География</a></li>
+      <li><a href="#gallery" data-i18n="nav.gallery">Фотосурет</a></li>
+      <li><a href="#tariffs" data-i18n="nav.tariffs">Тарифтер</a></li>
+      <li><a href="#gps">GPS</a></li>
+      <li><a href="#order" data-i18n="nav.order">Өтінім</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Тіл / Язык">
+        <button type="button" id="langKk" class="active" data-lang="kk">ҚАЗ</button>
+        <button type="button" id="langRu" data-lang="ru">РУС</button>
+      </div>
+      <a class="nav-phone" href="tel:+77015448182">+7 701 544 8182</a>
+    </div>
+  </div>
+  <div class="hazard-stripe"></div>
+</header>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <h1 data-i18n="hero.h1">Қазақстан бойынша 20 және 40 фут контейнерлерді тасымалдау</h1>
+    <p class="lead" data-i18n="hero.lead">ИП Alem Trans.KZ — контейнеровоз және жартылай тіркеме қызметтері. Қалаішілік және қалааралық рейстер, нақты мерзімдер, бағытты GPS арқылы бақылау.</p>
+    <div class="hero-actions">
+      <a class="btn btn-accent" href="#order" data-i18n="hero.btnOrder">Өтінім қалдыру</a>
+      <a class="btn btn-outline" id="heroWaLink" href="https://wa.me/77015448182?text=Сәлеметсіз%20бе!%20Контейнер%20тасымалы%20қажет." target="_blank" rel="noopener" data-i18n="hero.btnWa">WhatsApp-қа жазу</a>
+    </div>
+    <div class="hero-badges">
+      <span class="badge" data-i18n="badge.c20">20 фут контейнер</span>
+      <span class="badge" data-i18n="badge.c40">40 фут контейнер</span>
+      <span class="badge" data-i18n="badge.trailer">Жартылай тіркеме қызметі</span>
+      <span class="badge" data-i18n="badge.kz">Қазақстан бойынша</span>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow" data-i18n="services.eyebrow">Біз не істейміз</div>
+      <h2 data-i18n="nav.services">Қызметтер</h2>
+      <p data-i18n="services.lead">Меншікті тартқыш пен контейнерлік шасси — жалғыз және тұрақты рейстерге тапсырыс аламыз.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="icon">📦</div>
+        <h3 data-i18n="badge.c20">20 фут контейнер</h3>
+        <p data-i18n="services.c20.desc">Стандартты 20 фут контейнерлерді терминалдан немесе терминалға дейін тасымалдау, кранмен тиеу/түсіру.</p>
+      </div>
+      <div class="service-card">
+        <div class="icon">🚛</div>
+        <h3 data-i18n="badge.c40">40 фут контейнер</h3>
+        <p data-i18n="services.c40.desc">40 фут контейнерлерді, оның ішінде ауыр жүктерді тасымалдау — бағытқа қарай 40 тоннаға дейін.</p>
+      </div>
+      <div class="service-card">
+        <div class="icon">🔗</div>
+        <h3 data-i18n="badge.trailer">Жартылай тіркеме қызметі</h3>
+        <p data-i18n="services.trailer.desc">Контейнерлік рейстерден бөлек, негабаритті және стандартты жүктерге арналған жартылай тіркеме беру/жалға алу қызметі.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="geo" style="padding-top:0;">
+  <div class="container">
+    <div class="geo">
+      <div>
+        <h2 data-i18n="geo.h2">География — бүкіл Қазақстан</h2>
+        <p data-i18n="geo.lead">Қысқа қалаішілік тасымалдарды (терминал → қойма, порт → зауыт) да, облыс аралық қалааралық рейстерді де орындаймыз.</p>
+        <ul class="geo-list">
+          <li data-i18n="geo.almaty">Алматы</li>
+          <li data-i18n="geo.astana">Астана</li>
+          <li data-i18n="geo.shymkent">Шымкент</li>
+          <li data-i18n="geo.aktobe">Ақтөбе</li>
+          <li data-i18n="geo.karaganda">Қарағанды</li>
+          <li data-i18n="geo.other">ҚР басқа қалалары</li>
+        </ul>
+      </div>
+      <div class="geo-map-note" data-i18n="geo.note">Бағыт пен құнын тиеу/түсіру нүктелерін нақтылағаннан кейін жеке есептейміз — өтінім қалдырыңыз, жұмыс күні ішінде хабарласамыз.</div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow" data-i18n="gallery.eyebrow">Біздің автопарк</div>
+      <h2 data-i18n="nav.gallery">Фотосурет</h2>
+      <p data-i18n="gallery.lead">MAN тартқышы контейнерлік жартылай тіркемемен нақты объектілерде.</p>
+    </div>
+    <div class="gallery-grid">
+      <figure>
+        <img src="assets/truck-man-front.jpg" data-i18n-alt="gallery.img1.alt" alt="Alem Trans.KZ 40 фут контейнермен MAN тартқышы" loading="lazy">
+        <figcaption data-i18n="gallery.img1.caption">40 фут контейнермен тартқыш</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/truck-terminal.jpg" data-i18n-alt="gallery.img2.alt" alt="Терминалда кранмен тиелген контейнеровоз" loading="lazy">
+        <figcaption data-i18n="gallery.img2.caption">Контейнер терминалында тиеу</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/truck-container.jpg" data-i18n-alt="gallery.img3.alt" alt="Alem Trans.KZ контейнеровозы рейсте" loading="lazy">
+        <figcaption data-i18n="gallery.img3.caption">Бағытта</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="tariffs">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow" data-i18n="tariffs.eyebrow">Құны</div>
+      <h2 data-i18n="tariffs.h2">Тарифтер — сұраныс бойынша</h2>
+      <p data-i18n="tariffs.lead">Баға қашықтыққа, жүк салмағына және контейнер түріне байланысты, сондықтан әр рейсті жеке есептейміз.</p>
+    </div>
+    <div class="tariff-grid">
+      <div class="tariff-card">
+        <div class="big" data-i18n="badge.c20">20 фут контейнер</div>
+        <div class="price" data-i18n="tariffs.price">Бағасын білу</div>
+        <p data-i18n="tariffs.c20.desc">Құны бағыт пен жүк салмағына байланысты</p>
+        <a class="btn btn-accent btn-block" href="#order" data-i18n="tariffs.btn">Есеп сұрау</a>
+      </div>
+      <div class="tariff-card">
+        <div class="big" data-i18n="badge.c40">40 фут контейнер</div>
+        <div class="price" data-i18n="tariffs.price">Бағасын білу</div>
+        <p data-i18n="tariffs.c40.desc">Қашықтық пен 40 тоннаға дейінгі жүктемені ескере отырып есептеу</p>
+        <a class="btn btn-accent btn-block" href="#order" data-i18n="tariffs.btn">Есеп сұрау</a>
+      </div>
+      <div class="tariff-card">
+        <div class="big" data-i18n="badge.trailer">Жартылай тіркеме</div>
+        <div class="price" data-i18n="tariffs.price">Бағасын білу</div>
+        <p data-i18n="tariffs.trailer.desc">Жеке сұраныс бойынша жартылай тіркеме беру</p>
+        <a class="btn btn-accent btn-block" href="#order" data-i18n="tariffs.btn">Есеп сұрау</a>
+      </div>
+    </div>
+    <p class="tariff-note" data-i18n-html="tariffs.note">Бізге тікелей қоңырау шалыңыз: <a href="tel:+77015448182">+7 701 544 8182</a> — бірнеше минутта бағаны айтып береміз.</p>
+  </div>
+</section>
+
+<section id="gps">
+  <div class="container gps-wrap">
+    <div class="gps-text">
+      <span class="demo-flag" data-i18n="gps.demo">Демо режимі</span>
+      <h2 data-i18n="gps.h2">Рейстің GPS-мониторингі</h2>
+      <p data-i18n="gps.p1">Төменде Leaflet және OpenStreetMap негізіндегі мониторинг картасының демонстрациясы берілген. Маркер қазір техниканың шамамен орналасқан жерін көрсетеді.</p>
+      <p data-i18n="gps.p2">Техникаға GPS-трекер орнатылысымен нақты уақыттағы трекинг автоматты түрде қосылады — картадағы нүкте өздігінен жаңарып тұрады.</p>
+    </div>
+    <div id="gpsMap"></div>
+  </div>
+</section>
+
+<section id="order" class="order-section">
+  <div class="container order-wrap">
+    <div class="order-info">
+      <h2 data-i18n="nav.order">Өтінім қалдыру</h2>
+      <p data-i18n="order.lead">Бағыт пен жүк түрін көрсетіңіз — қоңырау шалып, құны мен мерзімін айтамыз.</p>
+      <div class="contact-line">📞 <a href="tel:+77015448182">+7 701 544 8182</a></div>
+      <div class="contact-line">💬 <a href="https://wa.me/77015448182" target="_blank" rel="noopener">WhatsApp: +7 701 544 8182</a></div>
+      <div class="contact-line">✉️ <a href="mailto:erbol.kts@mail.ru">erbol.kts@mail.ru</a></div>
+    </div>
+
+    <form class="order-form" id="orderForm" novalidate>
+      <div class="form-row">
+        <div class="field" id="field-name">
+          <label for="name" data-i18n="form.name">Атыңыз *</label>
+          <input type="text" id="name" name="name" placeholder="Айбек">
+          <div class="err-msg" data-i18n="form.name.err">Атыңызды көрсетіңіз</div>
+        </div>
+        <div class="field" id="field-phone">
+          <label for="phone" data-i18n="form.phone">Телефон *</label>
+          <input type="tel" id="phone" name="phone" placeholder="+7 7XX XXX XX XX">
+          <div class="err-msg" data-i18n="form.phone.err">Телефон нөмірін дұрыс көрсетіңіз</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field" id="field-from">
+          <label for="from" data-i18n="form.from">Қайдан</label>
+          <input type="text" id="from" name="from" placeholder="Алматы">
+        </div>
+        <div class="field" id="field-to">
+          <label for="to" data-i18n="form.to">Қайда</label>
+          <input type="text" id="to" name="to" placeholder="Астана">
+        </div>
+      </div>
+      <div class="field" id="field-cargo">
+        <label for="cargo" data-i18n="form.cargo">Жүк/контейнер түрі</label>
+        <select id="cargo" name="cargo">
+          <option value="Контейнер 20 фут" data-i18n="badge.c20">20 фут контейнер</option>
+          <option value="Контейнер 40 фут" data-i18n="badge.c40">40 фут контейнер</option>
+          <option value="Полуприцеп" data-i18n="badge.trailer">Жартылай тіркеме қызметі</option>
+          <option value="Другое" data-i18n="form.cargo.other">Басқа</option>
+        </select>
+      </div>
+      <div class="field" id="field-comment">
+        <label for="comment" data-i18n="form.comment">Түсініктеме</label>
+        <textarea id="comment" name="comment" placeholder="Жүк салмағы, қалаған күн және басқа мәліметтер"></textarea>
+      </div>
+      <button type="submit" class="btn btn-accent btn-block" data-i18n="form.submit">Өтінімді жіберу</button>
+      <div class="form-status" id="formStatus"></div>
+    </form>
+  </div>
+</section>
+
+<div class="hazard-stripe"></div>
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>ИП Alem Trans.KZ</h4>
+        <p data-i18n="footer.desc">Контейнеровоз, 20/40 фут тасымалы, Қазақстан бойынша жартылай тіркеме қызметі.</p>
+      </div>
+      <div>
+        <h4 data-i18n="footer.contacts">Байланыс</h4>
+        <p><span data-i18n="footer.phoneLabel">Тел./WhatsApp:</span> +7 701 544 8182</p>
+        <p>Email: erbol.kts@mail.ru</p>
+      </div>
+      <div>
+        <h4 data-i18n="footer.nav">Шарлау</h4>
+        <p>
+          <a href="#services" data-i18n="nav.services">Қызметтер</a> ·
+          <a href="#tariffs" data-i18n="nav.tariffs">Тарифтер</a> ·
+          <a href="#order" data-i18n="nav.order">Өтінім</a>
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom" data-i18n="footer.rights">© 2026 ИП Alem Trans.KZ. Барлық құқықтар қорғалған.</div>
+  </div>
+</footer>
+
+<a class="float-wa" href="https://wa.me/77015448182" target="_blank" rel="noopener" data-i18n-aria="hero.btnWa" aria-label="WhatsApp-қа жазу">💬</a>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // ---------- Аударма сөздігі (kk негізгі, ru қосымша) ----------
+  var I18N = {
+    kk: {
+      "nav.services":"Қызметтер","nav.geo":"География","nav.gallery":"Фотосурет","nav.tariffs":"Тарифтер","nav.order":"Өтінім",
+      "hero.h1":"Қазақстан бойынша 20 және 40 фут контейнерлерді тасымалдау",
+      "hero.lead":"ИП Alem Trans.KZ — контейнеровоз және жартылай тіркеме қызметтері. Қалаішілік және қалааралық рейстер, нақты мерзімдер, бағытты GPS арқылы бақылау.",
+      "hero.btnOrder":"Өтінім қалдыру","hero.btnWa":"WhatsApp-қа жазу",
+      "badge.c20":"20 фут контейнер","badge.c40":"40 фут контейнер","badge.trailer":"Жартылай тіркеме қызметі","badge.kz":"Қазақстан бойынша",
+      "services.eyebrow":"Біз не істейміз",
+      "services.lead":"Меншікті тартқыш пен контейнерлік шасси — жалғыз және тұрақты рейстерге тапсырыс аламыз.",
+      "services.c20.desc":"Стандартты 20 фут контейнерлерді терминалдан немесе терминалға дейін тасымалдау, кранмен тиеу/түсіру.",
+      "services.c40.desc":"40 фут контейнерлерді, оның ішінде ауыр жүктерді тасымалдау — бағытқа қарай 40 тоннаға дейін.",
+      "services.trailer.desc":"Контейнерлік рейстерден бөлек, негабаритті және стандартты жүктерге арналған жартылай тіркеме беру/жалға алу қызметі.",
+      "geo.h2":"География — бүкіл Қазақстан",
+      "geo.lead":"Қысқа қалаішілік тасымалдарды (терминал → қойма, порт → зауыт) да, облыс аралық қалааралық рейстерді де орындаймыз.",
+      "geo.almaty":"Алматы","geo.astana":"Астана","geo.shymkent":"Шымкент","geo.aktobe":"Ақтөбе","geo.karaganda":"Қарағанды","geo.other":"ҚР басқа қалалары",
+      "geo.note":"Бағыт пен құнын тиеу/түсіру нүктелерін нақтылағаннан кейін жеке есептейміз — өтінім қалдырыңыз, жұмыс күні ішінде хабарласамыз.",
+      "gallery.eyebrow":"Біздің автопарк",
+      "gallery.lead":"MAN тартқышы контейнерлік жартылай тіркемемен нақты объектілерде.",
+      "gallery.img1.alt":"Alem Trans.KZ 40 фут контейнермен MAN тартқышы","gallery.img1.caption":"40 фут контейнермен тартқыш",
+      "gallery.img2.alt":"Терминалда кранмен тиелген контейнеровоз","gallery.img2.caption":"Контейнер терминалында тиеу",
+      "gallery.img3.alt":"Alem Trans.KZ контейнеровозы рейсте","gallery.img3.caption":"Бағытта",
+      "tariffs.eyebrow":"Құны","tariffs.h2":"Тарифтер — сұраныс бойынша",
+      "tariffs.lead":"Баға қашықтыққа, жүк салмағына және контейнер түріне байланысты, сондықтан әр рейсті жеке есептейміз.",
+      "tariffs.price":"Бағасын білу","tariffs.btn":"Есеп сұрау",
+      "tariffs.c20.desc":"Құны бағыт пен жүк салмағына байланысты",
+      "tariffs.c40.desc":"Қашықтық пен 40 тоннаға дейінгі жүктемені ескере отырып есептеу",
+      "tariffs.trailer.desc":"Жеке сұраныс бойынша жартылай тіркеме беру",
+      "tariffs.note":"Бізге тікелей қоңырау шалыңыз: <a href=\"tel:+77015448182\">+7 701 544 8182</a> — бірнеше минутта бағаны айтып береміз.",
+      "gps.demo":"Демо режимі","gps.h2":"Рейстің GPS-мониторингі",
+      "gps.p1":"Төменде Leaflet және OpenStreetMap негізіндегі мониторинг картасының демонстрациясы берілген. Маркер қазір техниканың шамамен орналасқан жерін көрсетеді.",
+      "gps.p2":"Техникаға GPS-трекер орнатылысымен нақты уақыттағы трекинг автоматты түрде қосылады — картадағы нүкте өздігінен жаңарып тұрады.",
+      "gps.popup":"Техниканың демо-позициясы<br>Тірі трекинг — GPS-трекер орнатылғаннан кейін",
+      "order.lead":"Бағыт пен жүк түрін көрсетіңіз — қоңырау шалып, құны мен мерзімін айтамыз.",
+      "form.name":"Атыңыз *","form.name.err":"Атыңызды көрсетіңіз",
+      "form.phone":"Телефон *","form.phone.err":"Телефон нөмірін дұрыс көрсетіңіз",
+      "form.from":"Қайдан","form.to":"Қайда","form.cargo":"Жүк/контейнер түрі","form.cargo.other":"Басқа",
+      "form.comment":"Түсініктеме","form.submit":"Өтінімді жіберу",
+      "form.sending":"Өтінім жіберілуде...",
+      "form.validation.fail":"Белгіленген өрістерді тексеріп, қайта көріңіз.",
+      "form.ok":"Өтінім жіберілді! Жақын арада хабарласамыз.",
+      "form.net.fail":"Сайт арқылы жіберу мүмкін болмады.",
+      "form.wa.link":"Өтінімді WhatsApp арқылы жіберу →",
+      "footer.desc":"Контейнеровоз, 20/40 фут тасымалы, Қазақстан бойынша жартылай тіркеме қызметі.",
+      "footer.contacts":"Байланыс","footer.phoneLabel":"Тел./WhatsApp:","footer.nav":"Шарлау",
+      "footer.rights":"© 2026 ИП Alem Trans.KZ. Барлық құқықтар қорғалған.",
+      "meta.title":"Alem Trans.KZ — Контейнеровоз, 20/40 фут контейнер тасымалы Қазақстан бойынша",
+      "meta.desc":"ЖК Alem Trans.KZ — 20 және 40 фут контейнер тасымалы, жартылай тіркеме қызметі. Қазақстан бойынша қалаішілік және қалааралық рейстер. Телефон: +7 701 544 8182."
+    },
+    ru: {
+      "nav.services":"Услуги","nav.geo":"География","nav.gallery":"Фото","nav.tariffs":"Тарифы","nav.order":"Заявка",
+      "hero.h1":"Перевозка контейнеров 20 и 40 футов по Казахстану",
+      "hero.lead":"ИП Alem Trans.KZ — контейнеровоз и услуги полуприцепа. Внутригородские и междугородние рейсы, точные сроки, GPS-контроль маршрута.",
+      "hero.btnOrder":"Оставить заявку","hero.btnWa":"Написать в WhatsApp",
+      "badge.c20":"Контейнер 20 фут","badge.c40":"Контейнер 40 фут","badge.trailer":"Услуги полуприцепа","badge.kz":"По всему Казахстану",
+      "services.eyebrow":"Что мы делаем",
+      "services.lead":"Собственный тягач и контейнерное шасси — берём заказы на разовые и регулярные рейсы.",
+      "services.c20.desc":"Перевозка стандартных 20-футовых контейнеров с терминала или до терминала, погрузка/выгрузка краном.",
+      "services.c40.desc":"Перевозка 40-футовых контейнеров, в том числе тяжёлых грузов — до 40 тонн по требованию маршрута.",
+      "services.trailer.desc":"Аренда/подача полуприцепа под негабаритные и стандартные грузы отдельно от контейнерных рейсов.",
+      "geo.h2":"География — весь Казахстан",
+      "geo.lead":"Выполняем как короткие внутригородские перевозки (терминал → склад, порт → завод), так и междугородние рейсы между областями.",
+      "geo.almaty":"Алматы","geo.astana":"Астана","geo.shymkent":"Шымкент","geo.aktobe":"Актобе","geo.karaganda":"Караганда","geo.other":"Другие города РК",
+      "geo.note":"Маршрут и стоимость рассчитываем индивидуально после уточнения точек погрузки/выгрузки — оставьте заявку, и мы перезвоним в течение рабочего дня.",
+      "gallery.eyebrow":"Наш автопарк",
+      "gallery.lead":"Тягач MAN с контейнерным полуприцепом на реальных объектах.",
+      "gallery.img1.alt":"Тягач MAN с 40-футовым контейнером Alem Trans.KZ","gallery.img1.caption":"Тягач с контейнером 40 фут",
+      "gallery.img2.alt":"Контейнеровоз на погрузке под краном на терминале","gallery.img2.caption":"Погрузка на контейнерном терминале",
+      "gallery.img3.alt":"Контейнеровоз Alem Trans.KZ в рейсе","gallery.img3.caption":"На маршруте",
+      "tariffs.eyebrow":"Стоимость","tariffs.h2":"Тарифы — по запросу",
+      "tariffs.lead":"Цена зависит от расстояния, веса груза и типа контейнера, поэтому считаем каждый рейс индивидуально.",
+      "tariffs.price":"Узнать цену","tariffs.btn":"Запросить расчёт",
+      "tariffs.c20.desc":"Стоимость зависит от маршрута и веса груза",
+      "tariffs.c40.desc":"Расчёт с учётом расстояния и загрузки до 40 тонн",
+      "tariffs.trailer.desc":"Подача полуприцепа под индивидуальный запрос",
+      "tariffs.note":"Позвоните нам напрямую: <a href=\"tel:+77015448182\">+7 701 544 8182</a> — сориентируем по цене за пару минут.",
+      "gps.demo":"Демо-режим","gps.h2":"GPS-мониторинг рейса",
+      "gps.p1":"Ниже — демонстрация карты мониторинга на базе Leaflet и OpenStreetMap. Маркер сейчас указывает примерное расположение техники.",
+      "gps.p2":"Живой трекинг в реальном времени подключается автоматически, как только на технику установлен GPS-трекер — точка на карте начнёт обновляться сама.",
+      "gps.popup":"Демо-позиция техники<br>Живой трекинг — после установки GPS-трекера",
+      "order.lead":"Укажите маршрут и тип груза — перезвоним и назовём стоимость и сроки.",
+      "form.name":"Ваше имя *","form.name.err":"Пожалуйста, укажите имя",
+      "form.phone":"Телефон *","form.phone.err":"Укажите корректный номер телефона",
+      "form.from":"Откуда","form.to":"Куда","form.cargo":"Тип груза / контейнера","form.cargo.other":"Другое",
+      "form.comment":"Комментарий","form.submit":"Отправить заявку",
+      "form.sending":"Отправляем заявку...",
+      "form.validation.fail":"Проверьте отмеченные поля и попробуйте снова.",
+      "form.ok":"Заявка отправлена! Мы свяжемся с вами в ближайшее время.",
+      "form.net.fail":"Не удалось отправить через сайт.",
+      "form.wa.link":"Отправить заявку в WhatsApp →",
+      "footer.desc":"Контейнеровоз, перевозка 20/40 фут, услуги полуприцепа по Казахстану.",
+      "footer.contacts":"Контакты","footer.phoneLabel":"Тел./WhatsApp:","footer.nav":"Навигация",
+      "footer.rights":"© 2026 ИП Alem Trans.KZ. Все права защищены.",
+      "meta.title":"Alem Trans.KZ — Контейнеровоз, перевозка контейнеров 20/40 фут по Казахстану",
+      "meta.desc":"ИП Alem Trans.KZ — перевозка контейнеров 20 и 40 футов, услуги полуприцепа. Внутригородские и междугородние рейсы по Казахстану. Звоните: +7 701 544 8182."
+    }
+  };
+
+  var currentLang = localStorage.getItem('atkz_lang') || 'kk';
+
+  function applyLang(lang){
+    currentLang = lang;
+    try{ localStorage.setItem('atkz_lang', lang); }catch(e){}
+    document.documentElement.lang = lang;
+    document.getElementById('langKk').classList.toggle('active', lang === 'kk');
+    document.getElementById('langRu').classList.toggle('active', lang === 'ru');
+
+    var dict = I18N[lang];
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var key = el.getAttribute('data-i18n');
+      if(dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(function(el){
+      var key = el.getAttribute('data-i18n-html');
+      if(dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-alt]').forEach(function(el){
+      var key = el.getAttribute('data-i18n-alt');
+      if(dict[key] !== undefined) el.setAttribute('alt', dict[key]);
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function(el){
+      var key = el.getAttribute('data-i18n-aria');
+      if(dict[key] !== undefined) el.setAttribute('aria-label', dict[key]);
+    });
+
+    document.getElementById('pageTitle').textContent = dict['meta.title'];
+    document.title = dict['meta.title'];
+    document.getElementById('metaDescription').setAttribute('content', dict['meta.desc']);
+    document.getElementById('ogTitle').setAttribute('content', dict['meta.title']);
+    document.getElementById('ogDesc').setAttribute('content', dict['meta.desc']);
+
+    var waText = lang === 'kk'
+      ? 'Сәлеметсіз бе! Контейнер тасымалы қажет.'
+      : 'Здравствуйте! Нужна перевозка контейнера.';
+    document.getElementById('heroWaLink').setAttribute('href', 'https://wa.me/77015448182?text=' + encodeURIComponent(waText));
+
+    if(window._gpsMarker){
+      window._gpsMarker.setPopupContent(dict['gps.popup']);
+    }
+  }
+
+  document.getElementById('langKk').addEventListener('click', function(){ applyLang('kk'); });
+  document.getElementById('langRu').addEventListener('click', function(){ applyLang('ru'); });
+
+  // ---------- Демо GPS-карта (Leaflet + OpenStreetMap) ----------
+  var demoCoords = [43.238, 76.945];
+  var gpsMap = L.map('gpsMap', { scrollWheelZoom: false }).setView(demoCoords, 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
+    maxZoom: 18
+  }).addTo(gpsMap);
+  window._gpsMarker = L.marker(demoCoords).addTo(gpsMap)
+    .bindPopup(I18N[currentLang]['gps.popup'])
+    .openPopup();
+
+  // ---------- Форма заявки: валидация + Telegram-бот backend ----------
+  var API_URL = '/api/order'; // telegram-bot.py іске қосылған кезде осы мекенжайды нақтылаңыз
+
+  var form = document.getElementById('orderForm');
+  var statusBox = document.getElementById('formStatus');
+
+  function setError(fieldId, hasError){
+    var el = document.getElementById(fieldId);
+    if(!el) return;
+    el.classList.toggle('error', hasError);
+  }
+
+  function isValidPhone(value){
+    var digits = value.replace(/\D/g, '');
+    return digits.length >= 10;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var dict = I18N[currentLang];
+
+    var name = document.getElementById('name').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var from = document.getElementById('from').value.trim();
+    var to = document.getElementById('to').value.trim();
+    var cargo = document.getElementById('cargo').value;
+    var comment = document.getElementById('comment').value.trim();
+
+    var nameOk = name.length > 1;
+    var phoneOk = isValidPhone(phone);
+
+    setError('field-name', !nameOk);
+    setError('field-phone', !phoneOk);
+
+    if(!nameOk || !phoneOk){
+      statusBox.className = 'form-status show fail';
+      statusBox.textContent = dict['form.validation.fail'];
+      return;
+    }
+
+    var payload = { name: name, phone: phone, from: from, to: to, cargo: cargo, comment: comment };
+
+    statusBox.className = 'form-status show';
+    statusBox.textContent = dict['form.sending'];
+
+    fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(function(res){
+      if(!res.ok) throw new Error('bad response');
+      statusBox.className = 'form-status show ok';
+      statusBox.textContent = dict['form.ok'];
+      form.reset();
+    })
+    .catch(function(){
+      var waText = encodeURIComponent(
+        'Alem Trans.KZ — ' + (currentLang === 'kk' ? 'сайттан өтінім' : 'заявка с сайта') +
+        '\n' + dict['form.name'] + ' ' + name +
+        '\n' + dict['form.phone'] + ' ' + phone +
+        '\n' + dict['form.from'] + ': ' + from +
+        '\n' + dict['form.to'] + ': ' + to +
+        '\n' + dict['form.cargo'] + ': ' + cargo +
+        '\n' + dict['form.comment'] + ': ' + comment
+      );
+      statusBox.className = 'form-status show fail';
+      statusBox.innerHTML = dict['form.net.fail'] + ' <a href="https://wa.me/77015448182?text=' + waText + '" target="_blank" rel="noopener">' + dict['form.wa.link'] + '</a>';
+    });
+  });
+
+  applyLang(currentLang);
+</script>
+</body>
+</html>
